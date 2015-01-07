@@ -1,0 +1,3 @@
+To get rhyme lists:
+1.  word = Word.objects.select_related('phoneme_sequence').get(word=word)
+2.  rhyme_seqs = RhymePhonemeSequence.objects.filter(original_ps=word.phoneme_sequence.text)

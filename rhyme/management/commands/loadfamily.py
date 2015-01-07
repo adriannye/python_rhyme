@@ -14,11 +14,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.user = User.objects.get(username='adrian_nye')
-        #self.generate_family_rhymes()
-        self.test()
+        self.generate_family_rhymes()
+        #self.test()
 
     def test(self):
-        word = Word.objects.get(word='bond')
+        #word = Word.objects.get(word='bond')
+        word = Word.objects.get(word='sea')
         print word
         rhymer = Rhymer(word.phoneme_sequence)
         rhymer.make_rhymes()

@@ -1,0 +1,32 @@
+Revision history for Perl extension Text::Rhyme.
+
+0.08  Mon Apr 08 19:22 2002
+	- tidied up POD and modified param of C<build()>.
+
+0.07  Fri Jun 01 12:12:00 2001
+	- added matchall routine
+
+0.06  Thu May 31 14:35:00 2001
+	- corrected connection bug
+
+0.05  Thu May 31 13:13:00 2001
+	- added multiple.txt db
+	- added new functions and renamed old functions
+
+0.04  Wed May 30 19:01:25 2001
+	- completely rewritten - now uses a MySQL DB.
+	- moved namespace, as rhyming is now a linguist, not textual, operation
+	  (if it ever was).
+
+0.03  Tue May 29 13:35:12 2001
+	- ACTUALLY text-rhyme-0.03
+	- added parsing of final consenants. Still I can't spell.
+
+0.02  Tue May 29 12:32:00 2001
+	- ACTUALLY text-rhyme-0.02
+	- damn, got the module name wrong!
+
+0.01  Tue May 29 12:18:12 2001
+	- ACTUALLY text-rhyme-0.01
+	- original version; created by h2xs 1.20 with options
+		-Xcfn Text::Rhyme

@@ -1,0 +1,140 @@
+
+"""
+parsepron.py -- read and parse pronunciation and part of speech files, generate dicts for word info and rhyme list
+"""
+import sys
+#import re
+from pickleit import pickleit
+import profile
+#from google.appengine.ext import db
+import time
+from wordinfo import WordInfo
+
+workingdir = "C:\\Documents and Settings\\Adrian Nye\\My Documents\\FamilyRhyme\\rhymeRawData\\"
+
+vowelsounds = ["-", "i", "A", "&", "@", "I", "u", "eI", "E", ]
+
+if __name__ == '__main__':
+    #def main():
+    # attempt to open file for reading
+    try:
+        fobj = open((workingdir + "Mobyprontestfile.txt"), 'r')
+    except IOError, e:
+        print "*** can't open pronunciation data file:", e
+    else:
+        # process lines in file
+        pos = []  #not filled in until reading POS file
+        wordinfodict = {}  # dict, key is word, value is wordinfo class instance
+        linecount = 0
+        allphonemes = {}
+        print "processing pron"
+        for eachLine in fobj: # parse eachLine,
+            # create data item for each field in WordInfo,
+            # then create new WordInfo from it,
+            # then add to WordList
+            if eachLine == "\n":
+                continue   # breaks to next input line
+
+            substrings = eachLine.split(" ") # split into word and pronunciation (at space)
+            spelling = substrings[0] # copy word to spelling field
+            if "/" in spelling: # if spelling ends in /n or /v, delete that part
+                temp = spelling.split("/")
+                spelling = temp[0]
+
+
+            phonemes = substrings[1].split("/")  # split pronunciation into 1 field per phoneme
+
+            primstress = [] # empty list we can append to in loop
+            secstress = []
+            
+            phonemes[-1] = phonemes[-1].replace("\n", "") # last phoneme has return on end. delete
+
+            phonemescopy = phonemes[:] # copy list so we can edit original in for loop
+            count = 0
+            for x in range(len(phonemes)):  # len of original and copy same here, maybe not during
+                if phonemescopy[x] == "": # delete blank phonemes - because of initial / and double //
+                    del phonemes[x - count] # second time here original has shifted left
+                    count=count+1  # amount original is shifted left
+                    
+            if count: phonemescopy = phonemes[:] # do again if original changed
+            count = 0
+            # record stress and delete stress marks from phonemes
+            for x in range(len(phonemes)):  # len of original and copy same here, maybe not during
+                if phonemescopy[x] == ("'"):
+                    primstress.append(x-count)  # stress phoneme becomes this when this item deleted 
+                    del phonemes[x - count]  # modify original
+                    count = count + 1
+                elif "'" in phonemescopy[x]:
+                    phonemes[x-count] = phonemes[x-count].replace("'", "")   # replace returns copy
+                    primstress.append(x+1-count)   # append doesn't return copy, changes in place
+
+                if phonemescopy[x] == (","):
+                    secstress.append(x-count)  # stress phoneme becomes this when this item deleted 
+                    del phonemes[x - count]  # modify original
+                    count = count + 1
+                elif "," in phonemescopy[x]:
+                    phonemes[x-count] = phonemes[x-count].replace(",", "")   # replace returns copy
+                    secstress.append(x+1 - count)   # append doesn't return copy, changes in place
+
+                if phonemescopy[x] == ("_"):
+                    del phonemes[x - count]  # modify original
+                    count = count + 1
+                elif "_" in phonemescopy[x]:
+                    phonemes[x-count] = phonemes[x-count].replace("_", "")   # replace returns copy
+
+            # list comprehension:  set keys in allphonemes dict, all values empty lists
+            allphonemes[phonemes[x-count]] = [[] for x in range(len(phonemes))]
+                
+            # rhyme phonemes go from last primary stressed syllable to end of word
+            # but short words don't have marked stress
+            # and some other words do not have marked stress
+
+            if len(primstress) != 0:
+                rhymephonemes = "".join(phonemes[primstress[-1]:])  # concatenate the last 6 phonemes, ignore empties
+            else: #short word or no stress marked
+                rhymephonemes = "".join(phonemes[-6:])  # concatenate the last 6 phonemes, ignore empties
+
+   
+            #re.match('/(.*)/(.*)/(.*)', substrings[1])
+   
+            wordinfodict[spelling] = WordInfo(phonemes, rhymephonemes, primstress, secstress, pos)
+
+        fobj.close()
+
+    # add pos to wordinfodict
+    try:
+        fobj = open((workingdir + "Mobypostestfile.txt"), 'r')
+    except IOError, e:
+        print "*** can't open pos data file:", e
+    else:
+        # process lines in file
+        pos = []
+        linecount = 0
+        print "running pos"
+        for eachLine in fobj: # parse eachLine,
+            substrings = eachLine.split("\\") # split into word and pos (at \)
+            word = substrings[0]
+            posstring = substrings[1]
+            pos = list(posstring)
+            if word in wordinfodict:  # should be relatively fast
+                #append pos list to pos field in wordinfo
+                wordinfodict[word].pos.append(pos)
+        fobj.close()
+
+        # set keys for rhyme list dictionary: key is rhyme phoneme sequence, value later will be list of wordinfo
+        # first interate through words list and generate list of unique rhyme phoneme sequences, set as keys
+        # also make a list for use in creating the word-to-rhymephoneme dict
+        p2rdict = {} # needs to exist for test (could avoid with try)
+        for word in wordinfodict: # word is value
+            p2rdict[wordinfodict[word].rhymephonemes] = [] # every value is an empty list at this point
+
+        # fill p2rdict: append each rhyme word to value for appropriate key 
+        for word in wordinfodict: # now add all words in their appropriate rhyme list
+            p2rdict[wordinfodict[word].rhymephonemes].append(word)
+
+        # pickle phoneme sequence to rhyme list dict
+        pickleit(p2rdict, "p2rdict")
+
+        #pickle it for later use
+        pickleit(wordinfodict, "bigwordinfodict")
+

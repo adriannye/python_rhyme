@@ -1,0 +1,61 @@
+        Phoneme Example Translation
+        ------- ------- -----------
+AH        AA	odd     AA D .
+a        AE	at	AE T .
+UH        AH	hut	HH AH T .
+AW        AO	ought	AO Tm .
+AU        AW	cow	K AW .
+AI        AY	hide	HH AY D .
+.        EH	Ed	EH D .
+.        ER	hurt	HH ER T .
+.        EY	ate	EY T .
+.        IH	it	IH T .
+.        IY	eat	IY T .
+OU        OW	oat	OW T .
+.        OY	toy	T OY .
+.        UH	hood	HH UH D .
+.        UW	two	T UW .
+
+COnsonants
+        B 	be	B IY
+        CH	cheese	CH IY Z
+        D 	dee	D IY
+        DH	thee	DH IY
+        F 	fee	F IY
+        G 	green	G R IY N
+        HH	he	HH IY
+        JH	gee	JH IY
+        K 	key	K IY
+        L 	lee	L IY
+        M 	me	M IY
+        N 	knee	N IY
+        NG	ping	P IH NG
+        P 	pee	P IY
+        R 	read	R IY D
+        S 	sea	S IY
+        SH	she	SH IY
+        T 	tea	T IY
+        TH	theta	TH EY T AH
+        V 	vee	V IY
+        W 	we	W IY
+        Y 	yield	Y IY L D
+        Z 	zee	Z IY
+        ZH	seizure	S IY ZH ER
+
+
+
+For rhyme,
+Long A 		EY
+Short A = 	AE
+Long I = 	AY, 
+Short I = 	IH
+Long O = 	OW, OY		oat, toy
+Short O = 	AA, AO, AW	odd, ought, cow
+Long U  	UW		two
+Short U		AH, ER		hut, hurt
+Extended U	UH		hood (U with umlaut)
+Long E		IY
+Short E		EH
+
+Similar vowel classes from different rows above:  AW and OW,  UH and UW
+maybe EH and IH

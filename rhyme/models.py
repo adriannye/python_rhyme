@@ -3,38 +3,27 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class PeerReview(models.Model):
-    """
-    Represents review status of a word.
-    Views that modify this require login.
-    """
-    user_added = models.BooleanField(default=False)
-    flagged = models.BooleanField(default=False)
-    reviewed = models.BooleanField(default=False)
-    paid = models.BooleanField(default=False)
-    added_date = models.DateTimeField(auto_now_add=True)
-    added_by = models.ForeignKey(User)
-
-    def __unicode__(self):  # Python 3: def __str__(self):
-        return "user_added: %s flagged: %s reviewed: %s paid: %s" % \
-                (self.user_added, self.flagged, self.reviewed, self.paid)
 
 class PhonemeSequence(models.Model):
     """
-    Represents the sounds of a word.   Used in two contexts - for the word being rhymed, and 
-    also for the wordlists that are rhymes.
-
-    The sound field is used as a heading when displaying the rhyme lists.
+    Represents the sequence of sounds that end a word.
     """
-    text = models.CharField(max_length=255) 
+    text = models.CharField(max_length=255, db_index=True) 
 
     def __unicode__(self):  # Python 3: def __str__(self):
         return self.text
 
+    class Meta:
+        ordering = ['text']
+
 
 class RhymePhonemeSequence(models.Model):
     """
-    Represents an ordered list of rhyme phoneme sequences for a particular phoneme sequence
+    Represents a phoneme sequence that rhymes in a certain way with
+    the phoneme sequence for a word
+
+    Essentially this relates a list of rhyme phoneme sequences to the one for the word.
+    We relate to the phonemesequence, not the word, because more that one word may have the same phoneme sequence.
     """
     FAMILY = 'FAMILY'
     ADDITIVE = 'ADDITIVE'
@@ -52,7 +41,7 @@ class RhymePhonemeSequence(models.Model):
     order = models.IntegerField() 
 
     def __unicode__(self):  # Python 3: def __str__(self):
-        return "%s-%s: %s" % (self.rhyme_type, self.sound, self.order)
+        return "%s %s-%s: %s" % (self.original_ps, self.rhyme_type, self.sound, self.order)
 
 
 class PartOfSpeech(models.Model):
@@ -71,24 +60,27 @@ class Word(models.Model):
     word = models.CharField(max_length=255, unique=True, db_index=True)
     phoneme_sequence = models.ForeignKey(PhonemeSequence)
     parts_of_speech = models.ManyToManyField(PartOfSpeech)
-    peer_review = models.OneToOneField(PeerReview)
 
     def __unicode__(self):  # Python 3: def __str__(self):
             return self.word
 
-"""
-To get rhyme lists:
-1.  word = Word.objects.select_related('rhyme_phoneme_sequences').get(word=word)
-3. rhyme_lists = []
-     for rhyme_phoneme_sequence in word.rhyme_phoneme_sequences:
-        rhymes = Word.objects.select_related('phoneme_sequence')\
-            .filter(phoneme_sequence=rhyme_phoneme_sequence.phoneme_sequence)\
-            .prefetch_related('rhyme_phoneme_sequence')
+    class Meta:
+        ordering = ['word']
 
-        rhyme_lists.append({
-            'sound': rhyme_phoneme_sequence.sound,
-            'rhyme_type': rhyme_phoneme_sequence.rhyme_type,
-            'order': rhyme_phoneme_sequence.order,
-            'rhymes': rhymes,
-        })
-"""
+
+class PeerReview(models.Model):
+    """
+    Represents review status of a word.
+    Views that modify this require login.
+    """
+    user_added = models.BooleanField(default=False)
+    flagged = models.BooleanField(default=False)
+    reviewed = models.BooleanField(default=False)
+    paid = models.BooleanField(default=False)
+    added_date = models.DateTimeField(auto_now_add=True)
+    added_by = models.ForeignKey(User)
+    word = models.OneToOneField(Word)
+
+    def __unicode__(self):  # Python 3: def __str__(self):
+        return "user_added: %s flagged: %s reviewed: %s paid: %s" % \
+                (self.user_added, self.flagged, self.reviewed, self.paid)

@@ -1,0 +1,29 @@
+INSTALLATION
+----------------------------------------------------
+As any other perl module:
+
+	make
+	make test
+	make install
+
+And when you first run the module, set up the db
+by calling the build function before using it:
+
+	use Lingua::EN::Rhyme;
+	Lingua::EN::Rhyme::build(1);
+
+
+PREREQUISITES
+----------------------------------------------------
+	MySQL
+	DBI.pm
+	words.txt (supplied)
+	rhymes.txt (supplied)
+	multiples.txt (supplied)
+
+MORE INFO
+----------------------------------------------------
+More info including author details can be found in
+the module's POD.
+
+[END]

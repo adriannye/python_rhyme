@@ -1,0 +1,42 @@
+[
+    {
+        "pk": 1, 
+        "model": "rhyme.partofspeech", 
+        "fields": { "name": "Verb" }
+    },
+    {
+        "pk": 2, 
+        "model": "rhyme.partofspeech", 
+        "fields": { "name": "Noun" }
+    },
+    {
+        "pk": 3, 
+        "model": "rhyme.partofspeech", 
+        "fields": { "name": "Adverb" }
+    },
+    {
+        "pk": 4, 
+        "model": "rhyme.partofspeech", 
+        "fields": { "name": "Adjective" }
+    },
+    {
+        "pk": 5, 
+        "model": "rhyme.partofspeech", 
+        "fields": { "name": "Preposition" }
+    },
+    {
+        "pk": 6, 
+        "model": "rhyme.partofspeech", 
+        "fields": { "name": "Interjection" }
+    },
+    {
+        "pk": 7, 
+        "model": "rhyme.partofspeech", 
+        "fields": { "name": "Pronoun" }
+    },
+    {
+        "pk": 8, 
+        "model": "rhyme.partofspeech", 
+        "fields": { "name": "Conjunction" }
+    }
+]

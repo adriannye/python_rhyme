@@ -135,6 +135,19 @@ class Rhymer(object):
                 rhyming_sequence = self.replace_cons(ps, consonant_index, trial_cons)
                 self.create_rhyme(trial_cons, rhyming_sequence, order)
 
+    def final_order(self, order):
+        """
+        Give each rhyming mode a different order precedence
+        """
+        if self.rhyme_type == RhymePhonemeSequence.ADDITIVE:
+            return order
+        elif self.rhyme_type == RhymePhonemeSequence.FAMILY:
+            return 10 + order
+        elif self.rhyme_type == RhymePhonemeSequence.SUBTRACTIVE:
+            return 20 + order
+        else:
+            raise Exception('unexpected rhyme type')
+
     def create_rhyme(self, trial_cons, pstext, order):
         """
         Create record of rhyme in database
@@ -142,22 +155,21 @@ class Rhymer(object):
         try:
             ps = PhonemeSequence.objects.get(text=pstext)
         except PhonemeSequence.DoesNotExist:
-            print 'no rhymes for %s' % pstext
             return
 
         print 'creating %s rhyme for original %s: sound %s, rhyme %s, order %s' % (self.rhyme_type,   
             self.original_ps,
             sound_translate[trial_cons],
             ps,
-            order,
+            self.final_order(order),
             )
-        #rps, created = RhymePhonemeSequence.objects.get_or_create(
-        #    sound=sound_translate[trial_cons],
-        #    original_ps=self.original_ps,
-        #    rhyme_ps=ps,
-        #    rhyme_type=self.rhyme_type,
-        #    order=order,
-        #)
+        rps, created = RhymePhonemeSequence.objects.get_or_create(
+            sound=sound_translate[trial_cons],
+            original_ps=self.original_ps,
+            rhyme_ps=ps,
+            rhyme_type=self.rhyme_type,
+            order=self.final_order(order),
+        )
 
     def ps_has_rhymes(self, ps):
         """
@@ -280,7 +292,7 @@ class Rhymer(object):
         newseq = self.add_cons(ps, char)
         index = len(newseq)-1   #last char is len-1
 
-        try_rhyme_categories(newseq, index)
+        self.try_rhyme_categories(newseq, index)
 
         # try unique, then plosives, fricatives, and nasals
 

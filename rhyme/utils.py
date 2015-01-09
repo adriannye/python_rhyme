@@ -33,7 +33,6 @@ class WordNet(object):
         """
         wordnet conflates the pos with other stuff which has to be removed
         """
-        print lex_type
         parts = lex_type.split('.')
         return parts[0].title()
 

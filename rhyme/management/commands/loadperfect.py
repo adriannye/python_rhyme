@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.test = options.get('test', False)
-        self.user = User.objects.get(username='adrian_nye')
+        self.user = User.objects.get(username='admin')
         self.add_perfect_rhymes()
 
     def add_perfect_rhymes(self):
@@ -41,16 +41,16 @@ class Command(BaseCommand):
                         phoneme_sequence=ps,
                     )
                 except: 
+                    word = Word.objects.create(
+                        word=word,
+                        phoneme_sequence=ps,
+                    )
+                    word.save()
                     pr = PeerReview.objects.create(
+                        word_id=word.id,
                         added_by=self.user,
                         reviewed=True,
                         paid=True,
                     )
                     pr.save()
-                    word = Word.objects.create(
-                        word=word,
-                        phoneme_sequence=ps,
-                        peer_review=pr,
-                    )
-                    word.save()
 

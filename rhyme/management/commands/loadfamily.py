@@ -13,7 +13,7 @@ class Command(BaseCommand):
     help = "generate family rhymes"
 
     def handle(self, *args, **options):
-        self.user = User.objects.get(username='adrian_nye')
+        self.user = User.objects.get(username='admin')
         self.generate_family_rhymes()
         #self.test()
 

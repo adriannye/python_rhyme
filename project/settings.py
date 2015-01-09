@@ -1,11 +1,5 @@
 """
 Django settings for songrhyme project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -42,7 +36,6 @@ INSTALLED_APPS = (
     'debug_toolbar',
 
     'rhyme',
-    'south'
 )
 
 MIDDLEWARE_CLASSES = (

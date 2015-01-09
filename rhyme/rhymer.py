@@ -173,7 +173,7 @@ class Rhymer(object):
 
     def ps_has_rhymes(self, ps):
         """
-        Does phoneme sequence have words?
+        Does phoneme sequence have words that rhyme?
         """
         # TODO: replace with query once we have user added words
         if ps in phoneme2rhymedict:

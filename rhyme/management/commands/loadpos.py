@@ -1,72 +1,40 @@
-import os
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 
-#from rhyme.management.commands.w2pdec import word2phonemeseqdict
-#from rhyme.management.commands.p2rdec import phoneme2rhymedict
 from rhyme.models import *
+from rhyme.utils import WordNet
 
 class Command(BaseCommand):
-    help = "load db with initial data."
+    help = "load word info such as part of speech"
 
     def handle(self, *args, **options):
-        self.add_pos()
+        poses = PartOfSpeech.objects.all()
+        self.pos = {}
+        for pos in poses:
+            self.pos[pos.name] = pos
+        #self.get_all()
+        self.test()
 
-    def mk_pos_dict(self):
-        """
-        In result_dict:
-        keys are letters using in Moby POS
+    def test(self):
+        #word = Word.objects.get(word='bond')
+        word = Word.objects.get(word='approach')
+        wordinfo = self.get_wordinfo(word.word)
+        print wordinfo
 
-        Values are corresponding django objects
-        """
-        # simplify the 15 pos from moby to 9
-        moby_key_simplification = {
-            'N': 'Noun',
-            'p': 'Plural',
-            'h': 'Noun',
-            'V': 'Verb',
-            't': 'Verb',
-            'i': 'Verb',
-            'A': 'Adjective',
-            'v': 'Adverb',
-            'C': 'Conjunction',
-            'P': 'Preposition',
-            '!': 'Interjection',
-            'r': 'Pronoun',
-            'D': 'Article',
-            'I': 'Article',
-            'o': 'Noun',
-        }
-        poss = PartOfSpeech.objects.all()
-        pos_dict = {}
-        for p in poss:
-            pos_dict[p.name] = p
+    def get_wordinfo(self, word):
+        print word
+        wordnet = WordNet(word)
 
-        result_dict = copy(moby_key_simplification)
-        for key, value in result_dict.iteritems():
-            result_dict[key] = pos_dict[value]
+        return wordnet.word_info
 
-        return pos_dict
-        
+    def get_all(self):
+        counter = 0
+        words = Word.objects.all()
+        for word in words:
+            if not counter % 100:
+                print counter
 
-    def add_pos(self):
-        pos_file = os.path.join(settings.BASEDIR, 'rhyme', 'management', 'commands', 'mobypossrc.txt')
-        pos_dict = self.mk_pos_dict()
-        with open(pos_file, 'r') as f:
-            pos = []
-            linecount = 0
-            print "running pos"
-            for line in f.readlines():
-                line = line.strip()
-                substrings = line.split("\\") # split into word and pos (at \)
-                word = substrings[0].lower()
-                pos = list(substrings[1])
-                try:
-                    word_obj = Word.objects.get(word=word)
-                except Word.DoesNotExist:
-                    print 'not found: ', word
-                    continue
-
-                for part in pos:
-                    word_obj.parts_of_speech.add(pos_dict[part])
-
+            counter += 1
+            
+            wordinfo = self.get_wordinfo(word.word)
+            # TODO save db items

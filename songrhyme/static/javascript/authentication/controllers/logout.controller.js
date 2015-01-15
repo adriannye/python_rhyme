@@ -1,12 +1,12 @@
 /**
 * LogoutController
-* @namespace thinkster.authentication.controllers
+* @namespace songrhyme.authentication.controllers
 */
 (function () {
   'use static';
 
   angular
-    .module('thinkster.authentication.controllers')
+    .module('songrhyme.authentication.controllers')
     .controller('LogoutController', LogoutController);
 
   LogutController.$inject = ['$location', '$scope', 'Authentication'];
@@ -24,7 +24,7 @@
     /**
     * @name activate
     * @desc Actions to be performed when this controller is instantiated
-    * @memberOf thinkster.authentication.controllers.LogutController
+    * @memberOf songrhyme.authentication.controllers.LogutController
     */
     function activate() {
       // If the user is unauthenticated, they should not be here.
@@ -36,7 +36,7 @@
     /**
     * @name logout
     * @desc Log the user in
-    * @memberOf thinkster.authentication.controllers.LogutController
+    * @memberOf songrhyme.authentication.controllers.LogutController
     */
     function logout() {
       Authentication.logout(vm.email);

@@ -5,6 +5,7 @@ Django settings for songrhyme project.
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 PROJECT_ROOT = os.path.join(os.path.dirname(__file__), '..')
+BASE_DIR = PROJECT_ROOT  # used by stock management commands
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -36,7 +37,7 @@ INSTALLED_APPS = (
 
     'rest_framework',
     'django_extensions',
-    'debug_toolbar',
+    #'debug_toolbar',
     'djangular',
     'djangobower',
     'pipeline',

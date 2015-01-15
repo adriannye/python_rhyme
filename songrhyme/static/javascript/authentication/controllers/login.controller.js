@@ -1,12 +1,12 @@
 /**
 * LoginController
-* @namespace thinkster.authentication.controllers
+* @namespace songrhyme.authentication.controllers
 */
 (function () {
   'use static';
 
   angular
-    .module('thinkster.authentication.controllers')
+    .module('songrhyme.authentication.controllers')
     .controller('LoginController', LoginController);
 
   LoginController.$inject = ['$location', '$scope', 'Authentication'];
@@ -24,7 +24,7 @@
     /**
     * @name activate
     * @desc Actions to be performed when this controller is instantiated
-    * @memberOf thinkster.authentication.controllers.LoginController
+    * @memberOf songrhyme.authentication.controllers.LoginController
     */
     function activate() {
       // If the user is authenticated, they should not be here.
@@ -36,7 +36,7 @@
     /**
     * @name login
     * @desc Log the user in
-    * @memberOf thinkster.authentication.controllers.LoginController
+    * @memberOf songrhyme.authentication.controllers.LoginController
     */
     function login() {
       Authentication.login(vm.email, vm.password);

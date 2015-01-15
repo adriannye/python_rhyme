@@ -1,12 +1,12 @@
 /**
 * Authentication
-* @namespace thinkster.authentication.services
+* @namespace songrhyme.authentication.services
 */
 (function () {
   'use strict';
 
   angular
-    .module('thinkster.authentication.services')
+    .module('songrhyme.authentication.services')
     .factory('Authentication', Authentication);
 
   Authentication.$inject = ['$cookies', '$http'];
@@ -42,7 +42,7 @@
     * @param {string} first_name The first_name entered by the user
     * @param {string} last_name The last_name entered by the user
     * @returns {Promise}
-    * @memberOf thinkster.authentication.services.Authentication
+    * @memberOf songrhyme.authentication.services.Authentication
     */
     function register(email, password, first_name, last_name) {
       return $http.post('/api/accounts/signup', {
@@ -75,7 +75,7 @@
      * @param {string} email The email entered by the user
      * @param {string} password The password entered by the user
      * @returns {Promise}
-     * @memberOf thinkster.authentication.services.Authentication
+     * @memberOf songrhyme.authentication.services.Authentication
      */
     function login(email, password) {
       return $http.post('/api/accounts/login/', {
@@ -106,7 +106,7 @@
      * @name logout
      * @desc Try to log the user out
      * @returns {Promise}
-     * @memberOf thinkster.authentication.services.Authentication
+     * @memberOf songrhyme.authentication.services.Authentication
      */
     function logout(token) {
       var config = {headers: {
@@ -140,7 +140,7 @@
      * @name getAuthenticatedAccount
      * @desc Return the currently authenticated account
      * @returns {object|undefined} Account if authenticated, else `undefined`
-     * @memberOf thinkster.authentication.services.Authentication
+     * @memberOf songrhyme.authentication.services.Authentication
      */
     function getAuthenticatedAccount() {
       if (!$cookies.authenticatedAccount) {
@@ -154,7 +154,7 @@
      * @name isAuthenticated
      * @desc Check if the current user is authenticated
      * @returns {boolean} True is user is authenticated, else false.
-     * @memberOf thinkster.authentication.services.Authentication
+     * @memberOf songrhyme.authentication.services.Authentication
      */
     function isAuthenticated() {
       return !!$cookies.authenticatedAccount;
@@ -165,7 +165,7 @@
      * @desc Stringify the account object and store it in a cookie
      * @param {Object} user The account object to be stored
      * @returns {undefined}
-     * @memberOf thinkster.authentication.services.Authentication
+     * @memberOf songrhyme.authentication.services.Authentication
      */
     function setAuthenticatedAccount(account) {
       $cookies.authenticatedAccount = JSON.stringify(account);
@@ -175,7 +175,7 @@
      * @name unauthenticate
      * @desc Delete the cookie where the user object is stored
      * @returns {undefined}
-     * @memberOf thinkster.authentication.services.Authentication
+     * @memberOf songrhyme.authentication.services.Authentication
      */
     function unauthenticate() {
       delete $cookies.authenticatedAccount;

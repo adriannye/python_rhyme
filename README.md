@@ -1,4 +1,4 @@
-# thinkster-django-angular-boilerplate
+# songrhyme
 
 ## Installation
 

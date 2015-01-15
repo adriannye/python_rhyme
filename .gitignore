@@ -1,18 +1,29 @@
-project
-.pydevproject
-.vagrant
-.idea
-*.un~
+# Python compiled byte code
 *.pyc
+
+# local settings
+local_settings.py
+
+# SQLite3 database
+*.sqlite3
+
+# Node modules
+node_modules/
+
+# Bower components
+static/bower_components/
+
+# Uglified JavaScript
+dist/
+
+# Staticfiles
+staticfiles/
+
+# vim undo
+*~
 *.swp
 *.swo
-.ropeproject
+
+
+coverage/
 .coverage
-sqlite.db
-local_settings.py
-.DS_Store
-djangolog.txt
-src/static/
-scripts/fab_config.py
-cache/
-celerybeat-schedule

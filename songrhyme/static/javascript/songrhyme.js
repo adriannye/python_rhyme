@@ -6,7 +6,8 @@
       'songrhyme.routes',
       'songrhyme.config',
       'songrhyme.layout',
-      'songrhyme.authentication'
+      'songrhyme.authentication',
+      'songrhyme.rhyme'
     ]);
 
   angular

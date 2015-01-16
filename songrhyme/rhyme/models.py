@@ -1,8 +1,6 @@
 from django.db import models
 from accounts.models import Account
 
-# Create your models here.
-
 
 class PhonemeSequence(models.Model):
     """
@@ -52,6 +50,7 @@ class PartOfSpeech(models.Model):
 
     def __unicode__(self):  # Python 3: def __str__(self):
             return self.name
+
 
 class Word(models.Model):
     """

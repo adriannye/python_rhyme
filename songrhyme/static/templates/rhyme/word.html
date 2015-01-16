@@ -3,12 +3,11 @@
     <h1>Enter Word to Rhyme</h1>
 
     <div class="well">
-      <form role="form" ng-submit="vm.word()">
+      <form role="form" ng-submit="vm.submit_word()">
           <!--<div class="alert alert-danger" ng-show="error" ng-bind="error">Sorry, we don't know that word.  <a href='/add' >add it</a></div>-->
 
         <div class="form-group">
-          <label for="word__word_to_rhyme">Word</label>
-          <input type="text" class="form-control" id="word__word_to_rhyme" ng-model="vm.word_to_rhyme" placeholder="type yer word here" />
+          <input type="text" class="form-control" id="word__word_to_rhyme" ng-model="vm.word_to_rhyme" placeholder="type yer word here" ng-minlength="2" />
         </div>
 
         <div class="form-group">

@@ -13,12 +13,12 @@
     <div class="collapse navbar-collapse" id="songrhyme-nav">
       <ul class="nav navbar-nav pull-right">
         {% if user.is_authenticated %}
-          <li><a href="/word">Rhyme</a></li>
+          <li><a href="/rhyme/word">Rhyme</a></li>
           <li><a href="/api/accounts/users/me">+{{ user.first_name }} {{ user.last_name }}</a></li>
           <li><a href="/settings">Settings</a></li>
           <li><a href="javascript:void(0)" ng-click="vm.logout()">Logout</a></li>
         {% else %}
-          <li><a href="/word">Rhyme</a></li>
+          <li><a href="/rhyme/word">Rhyme</a></li>
           <li><a href="/login">Login</a></li>
           <li><a href="/register">Register</a></li>
         {% endif %}

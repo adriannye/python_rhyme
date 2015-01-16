@@ -9,24 +9,25 @@
     .module('songrhyme.rhyme.controllers')
     .controller('WordController', WordController);
 
-  WordController.$inject = ['$location', '$scope'];
+  WordController.$inject = ['$location', '$scope', 'Rhyme'];
 
   /**
   * @namespace WordController
   */
-  function WordController($location, $scope) {
+  function WordController($location, $scope, Rhyme) {
     var vm = this;
 
-    vm.word = word;
+    vm.submit_word = submit_word;
 
     /**
     * @name word
     * @desc Get a word to rhyme 
     * @memberOf songrhyme.rhyme.controllers.WordController
     */
-    function word() {
-      alert(vm.word_to_rhyme);
-      $location.url('/rhymes/' + vm.word_to_rhyme + '/');
+    function submit_word() {
+        Rhyme.ps_for_word(vm.word_to_rhyme);
+        $location.url('/rhyme/rhymes/');
     }
+
   }
 })();

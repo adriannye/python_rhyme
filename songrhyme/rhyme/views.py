@@ -19,7 +19,7 @@ class ListRhymePhonemeSequences(APIView):
     View to list all rhyme phoneme sequences for a word
     """
     permission_classes = (IsAuthenticatedOrReadOnly,)
-    def get(self, request, word=None):
+    def get(self, request, word):
         word = Word.objects.select_related('phoneme_sequence').get(word=word)
         rps = RhymePhonemeSequence.objects.select_related().filter(original_ps=word.phoneme_sequence).order_by('order')
         serializer = RhymePhonemeSequenceSerializer(rps, many=True)
@@ -30,10 +30,74 @@ class ListRhymes(APIView):
     View to list rhymes for a phoneme sequence
     """
     permission_classes = (IsAuthenticatedOrReadOnly,)
-    def get(self, request, ps=None):
+    def get(self, request, ps):
         words = Word.objects.filter(phoneme_sequence__text=ps).prefetch_related('parts_of_speech')
         serializer = WordSerializer(words, many=True)
         return Response(serializer.data)
+
+class ListRhymesForWord(APIView):
+    """
+    View to list rhymes for a word.  
+
+    Returns a nested list, outeer list is rhyme types,
+    inner list is rhymes for that rhyme type.  For example:
+    [
+        {
+            'rhyme_type': 'FAMILY',
+            'sound': 'T',
+            'order': 120,
+            'rhymes': [
+                {
+                    'word': 'bright',
+                    'pos': '[1]'
+                },
+                {
+                    'word': 'light',
+                    'pos': '[1,0]'
+                }
+            ]
+        },
+        {
+            'rhyme_type': 'FAMILY',
+            'sound': 'D',
+            'order': 100,
+            'rhymes': [
+                {
+                    'word': 'bride',
+                    'pos': '[1]'
+                },
+                {
+                    'word': 'snide',
+                    'pos': '[1]'
+                }
+            ]
+        }
+    ]
+    """
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    def get(self, request, word):
+        # first see if we know the word at all.
+        try:
+            word = Word.objects.get(word=word)
+        except Word.DoesNotExist:
+            return Response({'error': 'Word not found'})
+
+        ps_id = word.phoneme_sequence_id
+        # we could do this in two stages: get rps objects, then get rhymes
+        # for each rps object.  But that ends up with multiple queries.
+        # First attempt to do in a single query.
+
+        rpses = RhymePhonemeSequence.objects\
+                .filter(original_ps_id=ps_id)\
+                .order_by('order')\
+                .values()
+
+        for rps in rpses:
+            rps['rhymes'] = Word.objects\
+                    .filter(phoneme_sequence_id=rps['original_ps_id'])\
+                    .values('word', 'pos', 'id')
+
+        return Response(rpses)
 
 class RhymePhonemeSequenceViewSet(viewsets.ModelViewSet):
     """
@@ -49,6 +113,13 @@ class PhonemeSequenceViewSet(viewsets.ModelViewSet):
 
 
 class IndexView(TemplateView):
+    template_name = 'index.html'
+
+    @method_decorator(ensure_csrf_cookie)
+    def dispatch(self, *args, **kwargs):
+        return super(IndexView, self).dispatch(*args, **kwargs)
+
+class RedirectView(TemplateView):
     template_name = 'index.html'
 
     @method_decorator(ensure_csrf_cookie)

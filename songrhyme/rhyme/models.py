@@ -134,16 +134,15 @@ class Word(models.Model):
         """
         Take int or string value and add to list
         """
-        self.pos = self.pos + ',%s' % pos
+        self.pos.append(pos)
         self.save()
 
     def has_pos(self, pos):
         """
         Return True if int or string pos is in pos field
         """
-        pos = str(pos)
-        pos_list = self.pos.split(',')
-        return pos in pos_list
+        pos = int(pos)
+        return pos in self.pos
 
     @classmethod
     def words_containing_pos(self, pos):

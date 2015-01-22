@@ -126,6 +126,7 @@ class Word(models.Model):
     # pos is not a ManyToMany because it makes the desired queries 
     # difficult since prefetch_related doesn't work with a filtered queryset.
     pos = models.CommaSeparatedIntegerField(max_length=255, choices=POS_CHOICES, default='')
+    synonyms = models.ManyToManyField('Word', related_name='synonym')
 
     def __unicode__(self):  # Python 3: def __str__(self):
         return self.word

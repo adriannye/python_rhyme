@@ -11,7 +11,7 @@ local_settings.py
 node_modules/
 
 # Bower components
-static/bower_components/
+bower_components/
 
 # Uglified JavaScript
 dist/

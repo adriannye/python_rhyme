@@ -40,39 +40,7 @@ class ListRhymesForWord(APIView):
     View to list rhymes for a word.  
 
     Returns a nested list, outeer list is rhyme types,
-    inner list is rhymes for that rhyme type.  For example:
-    [
-        {
-            'rhyme_type': 'FAMILY',
-            'sound': 'T',
-            'order': 120,
-            'rhymes': [
-                {
-                    'word': 'bright',
-                    'pos': '[1]'
-                },
-                {
-                    'word': 'light',
-                    'pos': '[1,0]'
-                }
-            ]
-        },
-        {
-            'rhyme_type': 'FAMILY',
-            'sound': 'D',
-            'order': 100,
-            'rhymes': [
-                {
-                    'word': 'bride',
-                    'pos': '[1]'
-                },
-                {
-                    'word': 'snide',
-                    'pos': '[1]'
-                }
-            ]
-        }
-    ]
+    inner list is rhymes for that rhyme type. 
     """
     permission_classes = (IsAuthenticatedOrReadOnly,)
     def get(self, request, word):
@@ -90,12 +58,12 @@ class ListRhymesForWord(APIView):
         rpses = RhymePhonemeSequence.objects\
                 .filter(original_ps_id=ps_id)\
                 .order_by('order')\
-                .values()
+                .values('sound', 'rhyme_type', 'order', 'rhyme_ps_id')
 
         for rps in rpses:
             rps['rhymes'] = Word.objects\
-                    .filter(phoneme_sequence_id=rps['original_ps_id'])\
-                    .values('word', 'pos', 'id')
+                    .filter(phoneme_sequence_id=rps['rhyme_ps_id'])\
+                    .values('word', 'pos')
 
         return Response(rpses)
 

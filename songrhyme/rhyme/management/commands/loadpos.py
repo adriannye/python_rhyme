@@ -14,8 +14,8 @@ class Command(BaseCommand):
         self.pos = {}
         for pos in poses:
             self.pos[pos.name] = pos
-        #self.load_all_words()
-        self.test()
+        self.load_all_words()
+        #self.test()
 
     def get_our_pos_code(self, name):
         "translate wordnet name for pos to our code"
@@ -65,8 +65,16 @@ class Command(BaseCommand):
 
     def add_pos_m2m(self, word, wordinfo):
         word.pos = []
+        # wordinfo[word.word] contains 'definitions', 'synonyms', and 'pos'
         for pos_name in wordinfo[word.word]['pos']:
             pos_code = self.get_our_pos_code(pos_name)
             word.pos.append(pos_code)
             #word.parts_of_speech.add(self.pos[our_pos_name])
+        for synonym_str in wordinfo[word.word]['synonyms']:
+            try:
+                synonym = Word.objects.get(word=synonym_str)
+            except Word.DoesNotExist:
+                continue
+
+            word.synonyms.add(synonym)
         word.save()

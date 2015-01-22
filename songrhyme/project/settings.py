@@ -171,6 +171,14 @@ REST_FRAMEWORK = {
     ]
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+
 # Email settings for authemail
 DEFAULT_EMAIL_FROM = 'songrhyme1@gmail.com'
 DEFAULT_EMAIL_BCC = ''

@@ -51,6 +51,21 @@ class ListRhymesForWord(APIView):
             return Response({'error': 'Word not found'})
 
         ps_id = word.phoneme_sequence_id
+
+        # perfect rhymes first
+
+        perfect = Word.objects.filter(phoneme_sequence_id=word.phoneme_sequence_id)\
+                    .values('word', 'pos')
+
+        perfect_rhymes_in_rps_format = [
+            {
+                "sound": "Perfect", 
+                "rhymes": perfect,
+                "order": 0, 
+                "rhyme_type": "PERFECT"
+            }, 
+        ]
+
         # we could do this in two stages: get rps objects, then get rhymes
         # for each rps object.  But that ends up with multiple queries.
         # First attempt to do in a single query.
@@ -65,7 +80,9 @@ class ListRhymesForWord(APIView):
                     .filter(phoneme_sequence_id=rps['rhyme_ps_id'])\
                     .values('word', 'pos')
 
-        return Response(rpses)
+        # because rpses is a ValuesQuerySet and we need it in list form to add
+        rps_list = [rps for rps in rpses]
+        return Response(perfect_rhymes_in_rps_format + rps_list)
 
 class RhymePhonemeSequenceViewSet(viewsets.ModelViewSet):
     """

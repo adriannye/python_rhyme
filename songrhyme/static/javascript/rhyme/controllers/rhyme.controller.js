@@ -17,7 +17,9 @@
   function RhymeController($location, $scope, Rhyme) {
     var vm = this;
 
-    vm.ps_list = Rhyme.ps_list;
+    vm.rhyme_data = Rhyme.rhyme_data;
+    vm.typed = Rhyme.typed;
+
 
   }
 })();

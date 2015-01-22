@@ -25,8 +25,7 @@
     * @memberOf songrhyme.rhyme.controllers.WordController
     */
     function submit_word() {
-        Rhyme.ps_for_word(vm.word_to_rhyme);
-        $location.url('/rhyme/rhymes/');
+        Rhyme.rhymes_for_word(vm.word_to_rhyme);
     }
 
   }

@@ -14,7 +14,23 @@ class Command(BaseCommand):
         self.pos = {}
         for pos in poses:
             self.pos[pos.name] = pos
-        self.get_all()
+        #self.load_all_words()
+        self.test()
+
+    def get_our_pos_code(self, name):
+        "translate wordnet name for pos to our code"
+        if name == 'Adj':
+            return ADJECTIVE
+        elif name == 'Adv':
+            return ADVERB
+        elif name == 'Noun':
+            return NOUN
+        elif name == 'Verb':
+            return VERB
+        elif name == 'Preposition':
+            return PREPOSITION
+        else:
+            raise Exception('Unexpected wordnet part of speech string')
 
     def get_our_pos_name(self, name):
         "translate wordnet name for pos to our name"
@@ -35,7 +51,7 @@ class Command(BaseCommand):
 
         return wordnet.word_info
 
-    def get_all(self):
+    def load_all_words(self):
         counter = 0
         words = Word.objects.all()
         for word in words:
@@ -44,14 +60,13 @@ class Command(BaseCommand):
 
             counter += 1
 
-            # if any existing pos, remove them (from previous run)
-            for pos in word.parts_of_speech.all():
-                word.parts_of_speech.remove(pos)
-            
             wordinfo = self.get_wordinfo(word.word)
             self.add_pos_m2m(word, wordinfo)
 
     def add_pos_m2m(self, word, wordinfo):
+        word.pos = []
         for pos_name in wordinfo[word.word]['pos']:
-            our_pos_name = self.get_our_pos_name(pos_name)
-            word.parts_of_speech.add(self.pos[our_pos_name])
+            pos_code = self.get_our_pos_code(pos_name)
+            word.pos.append(pos_code)
+            #word.parts_of_speech.add(self.pos[our_pos_name])
+        word.save()

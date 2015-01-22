@@ -59,7 +59,7 @@ class ListRhymesForWord(APIView):
 
         perfect_rhymes_in_rps_format = [
             {
-                "sound": "Perfect", 
+                "sound": "", 
                 "rhymes": perfect,
                 "order": 0, 
                 "rhyme_type": "PERFECT"

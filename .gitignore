@@ -9,6 +9,7 @@ local_settings.py
 
 # Node modules
 node_modules/
+npm-debug.log
 
 # Bower components
 bower_components/

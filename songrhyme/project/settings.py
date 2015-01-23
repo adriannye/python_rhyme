@@ -80,6 +80,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'songrhyme',
+        'PASSWORD': 'copters',
     }
 }
 

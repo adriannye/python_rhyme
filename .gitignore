@@ -3,6 +3,7 @@
 
 # local settings
 local_settings.py
+fabsettings.py
 
 # SQLite3 database
 *.sqlite3

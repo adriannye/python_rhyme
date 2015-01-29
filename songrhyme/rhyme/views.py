@@ -46,8 +46,9 @@ class ListRhymesForWord(APIView):
     def get(self, request, word):
         # first see if we know the word at all.
         try:
-            word = Word.objects.get(word=word)
+            word = Word.objects.get(word=word.lower())
         except Word.DoesNotExist:
+            print('word not found')
             return Response({'error': 'Word not found'})
 
         ps_id = word.phoneme_sequence_id

@@ -1,0 +1,1 @@
+gunicorn -c gunicorn.conf --access-logfile /home/adriannye/songrhyme.log songrhyme.project.wsgi

@@ -14,9 +14,8 @@ urlpatterns = patterns('rhyme.views',
 
     # json data sources
     url(r'^api/accounts/', include('authemail.urls')),
-    #url('^api/ps_for_word/(?P<word>.+)/$', ListRhymePhonemeSequences.as_view()),
-    #url('^api/rhymes_for_ps/(?P<ps>.+)/$', ListRhymes.as_view()),
     url('^api/rhymes_for_word/(?P<word>.+)/$', ListRhymesForWord.as_view()),
+    url('^api/add_word/(?P<word>.+)/(?P<rhyme>.+)/$', AddWord.as_view()),
     )
 
 if settings.DEBUG:

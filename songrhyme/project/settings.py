@@ -168,7 +168,8 @@ REST_FRAMEWORK = {
     #'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
     #'PAGINATE_BY': 10
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        #'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.AllowAny'
     ]
 }
 

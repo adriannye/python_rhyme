@@ -16,6 +16,10 @@
       controller: 'WordController', 
       controllerAs: 'vm',
       templateUrl: '/static/templates/rhyme/word.html'
+    }).when('/rhyme/addword', {
+      controller: 'AddWordController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/rhyme/addword.html'
     }).when('/rhyme/rhymes', {
       controller: 'RhymeController',
       controllerAs: 'vm',

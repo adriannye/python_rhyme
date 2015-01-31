@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <div class="jumbotron">
+      <h1>Teach me please!</h1>
+      <p>
+      I don't know the word "{{ vm.typed }}".  If you'll tell me 
+      a <b>common</b> word that is a <b>perfect</b> rhyme with "{{ vm.typed }}",
+      I'll add the new word to my dictionary, and show your rhymes!
+      </p>
+      <form role="form" ng-submit="vm.add_word()">
+          <!--<div class="alert alert-danger" ng-show="error" ng-bind="error">Sorry, we don't know that word.  <a href='/add' >add it</a></div>-->
+
+        <div class="form-group form-group-lg">
+          <input type="text" class="form-control" id="word__add_rhyme_word" ng-model="vm.add_word_rhyme" placeholder="type word here" ng-minlength="2" />
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Add Word</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

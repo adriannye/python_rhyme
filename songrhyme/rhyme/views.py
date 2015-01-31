@@ -56,7 +56,7 @@ class ListRhymesForWord(APIView):
         # perfect rhymes first
 
         perfect = Word.objects.filter(phoneme_sequence_id=word.phoneme_sequence_id)\
-                    .values('word', 'pos')
+                    .values('word', 'pos').order_by('word')
 
         perfect_rhymes_in_rps_format = [
             {
@@ -79,11 +79,41 @@ class ListRhymesForWord(APIView):
         for rps in rpses:
             rps['rhymes'] = Word.objects\
                     .filter(phoneme_sequence_id=rps['rhyme_ps_id'])\
-                    .values('word', 'pos')
+                    .values('word', 'pos').order_by('word')
 
         # because rpses is a ValuesQuerySet and we need it in list form to add
         rps_list = [rps for rps in rpses]
         return Response(perfect_rhymes_in_rps_format + rps_list)
+
+class AddWord(APIView):
+    """
+    View to add a rhyme to the database.  
+    """
+    #permission_classes = (IsAuthenticatedOrReadOnly,)
+    def post(self, request, word, rhyme):
+        # first see if we know the perfect rhyme at all.
+        try:
+            rhyme_we_know = Word.objects.get(word=rhyme.lower())
+        except Word.DoesNotExist:
+            return Response({'error': 'Word not found'})
+
+        word_object, created = Word.objects.get_or_create(
+                        word=word.lower(),
+                        phoneme_sequence=rhyme_we_know.phoneme_sequence,
+                    )
+
+        if created:
+            pr, created = PeerReview.objects.get_or_create(
+                            word=word_object,
+                            added_by=self.user,
+                            user_added=True,
+                            reviewed=False,
+                            paid=False,
+                        )
+
+        # TODO: add POS and synonyms using method in management command
+
+        return Response({'success': 'Word added'})
 
 class RhymePhonemeSequenceViewSet(viewsets.ModelViewSet):
     """

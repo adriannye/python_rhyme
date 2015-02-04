@@ -27,7 +27,12 @@
                     <div class="col-md-1 col-sm-2 col-xs-3">
                         <h2>{{ category.sound }}</h2>
                         <div ng-repeat="rhyme in category.rhymes | filter:search">
-                            {{ rhyme.word }}
+                            <div ng-if="rhyme.peerreview__user_added==true">
+                                <mark>{{ rhyme.word }}</mark>
+                            </div>
+                            <div ng-if="rhyme.peerreview__user_added==false">
+                                {{ rhyme.word }}
+                            </div>
                         </div>
                     </div>
                 </div>

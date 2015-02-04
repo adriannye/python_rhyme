@@ -56,7 +56,8 @@ class ListRhymesForWord(APIView):
         # perfect rhymes first
 
         perfect = Word.objects.filter(phoneme_sequence_id=word.phoneme_sequence_id)\
-                    .values('word', 'pos').order_by('word')
+                    .select_related('peerreview')\
+                    .values('word', 'pos', 'peerreview__user_added').order_by('word')
 
         perfect_rhymes_in_rps_format = [
             {
@@ -67,9 +68,9 @@ class ListRhymesForWord(APIView):
             }, 
         ]
 
-        # we could do this in two stages: get rps objects, then get rhymes
+        # we do this in two stages: get rps objects, then get rhymes
         # for each rps object.  But that ends up with multiple queries.
-        # First attempt to do in a single query.
+        # Any way to do in a single query?
 
         rpses = RhymePhonemeSequence.objects\
                 .filter(original_ps_id=ps_id)\
@@ -79,7 +80,8 @@ class ListRhymesForWord(APIView):
         for rps in rpses:
             rps['rhymes'] = Word.objects\
                     .filter(phoneme_sequence_id=rps['rhyme_ps_id'])\
-                    .values('word', 'pos').order_by('word')
+                    .select_related('peerreview')\
+                    .values('word', 'pos', 'peerreview__user_added').order_by('word')
 
         # because rpses is a ValuesQuerySet and we need it in list form to add
         rps_list = [rps for rps in rpses]

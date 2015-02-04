@@ -3,6 +3,7 @@
 
   angular
     .module('songrhyme', [
+      'mgcrea.ngStrap',
       'songrhyme.routes',
       'songrhyme.config',
       'songrhyme.layout',

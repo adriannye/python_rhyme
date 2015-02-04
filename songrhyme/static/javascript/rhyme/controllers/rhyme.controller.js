@@ -19,7 +19,9 @@
 
     vm.rhyme_data = Rhyme.rhyme_data;
     vm.typed = Rhyme.typed;
-
-
+    $scope.search = {
+        'pos': '!9'
+    };
+    
   }
 })();

@@ -8,6 +8,7 @@
       'songrhyme.config',
       'songrhyme.layout',
       'songrhyme.authentication',
+      'songrhyme.directives',
       'songrhyme.rhyme'
     ]);
 

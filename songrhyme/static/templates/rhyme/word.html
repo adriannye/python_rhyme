@@ -6,15 +6,15 @@
         <li>perfect and close rhymes</li>
         <li>by and for songwriters</li>
       </ul>
-      <form role="form" ng-submit="vm.submit_word()">
+      <form ng-submit="vm.submit_word()">
           <!--<div class="alert alert-danger" ng-show="error" ng-bind="error">Sorry, we don't know that word.  <a href='/add' >add it</a></div>-->
 
         <div class="form-group form-group-lg">
-          <input type="text" class="form-control" id="word__word_to_rhyme" ng-model="vm.word_to_rhyme" placeholder="type word here" ng-minlength="2" focus/>
+            <input type="text" class="form-control" id="word__word_to_rhyme" ng-model="vm.word_to_rhyme" placeholder="type word here" ng-minlength="2" focus-on-page-load>
         </div>
 
         <div class="form-group">
-          <button type="submit" class="btn btn-primary">Get Rhymes</button>
+          <button type="submit" class="btn btn-default">Get Rhymes</button>
         </div>
       </form>
       <h4>This service is ad free.  Your support enables it to continue and be improved.</h4>

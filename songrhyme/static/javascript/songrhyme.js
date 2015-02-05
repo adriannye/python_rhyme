@@ -4,12 +4,10 @@
   angular
     .module('songrhyme', [
       'mgcrea.ngStrap',
-      'angulike',
       'songrhyme.routes',
       'songrhyme.config',
       'songrhyme.layout',
       'songrhyme.authentication',
-      'songrhyme.directives',
       'songrhyme.rhyme'
     ]);
 
@@ -17,6 +15,8 @@
     .module('songrhyme.routes', ['ngRoute']);
   angular
     .module('songrhyme.config', []);
+  angular
+    .module('songrhyme.rhyme', ['angulike']);
 })();
 
 angular

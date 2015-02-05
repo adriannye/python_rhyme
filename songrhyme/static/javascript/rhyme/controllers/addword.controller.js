@@ -19,6 +19,7 @@
 
     vm.add_word = add_word;
     vm.typed = Rhyme.typed;
+    $scope.addwordscope = {};
 
     /**
     * @name add_word

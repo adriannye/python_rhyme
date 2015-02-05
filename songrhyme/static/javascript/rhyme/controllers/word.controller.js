@@ -18,6 +18,7 @@
     var vm = this;
 
     vm.submit_word = submit_word;
+    $scope.wordscope = {};
 
     /**
     * @name word

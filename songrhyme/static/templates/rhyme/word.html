@@ -10,15 +10,13 @@
           <!--<div class="alert alert-danger" ng-show="error" ng-bind="error">Sorry, we don't know that word.  <a href='/add' >add it</a></div>-->
 
         <div class="form-group form-group-lg">
-            <input type="text" class="form-control" id="word__word_to_rhyme" ng-model="vm.word_to_rhyme" placeholder="type word here" ng-minlength="2" focus-on-page-load>
-        </div>
+            <input type="text" class="form-control" id="word__word_to_rhyme" ng-model="vm.word_to_rhyme" placeholder="type word here" ng-minlength="2" focus-info="wordscope" focus-on-page-load>
 
-        <div class="form-group">
-          <button type="submit" class="btn btn-default">Get Rhymes</button>
+            <button type="submit" class="btn btn-primary btn-raised">Get Rhymes</button>
         </div>
       </form>
       <div fb-like></div>
-      <h4>This service is ad free.  Your support enables it to continue and be improved.</h4>
+      <h4>This service is ad free.  If you like it, please like us on facebook, and buy me a beer...</h4>
       <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
           <input type="hidden" name="cmd" value="_s-xclick">
           <input type="hidden" name="hosted_button_id" value="GPAVP853QCJCY">

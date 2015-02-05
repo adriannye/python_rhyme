@@ -4,6 +4,7 @@
   angular
     .module('songrhyme', [
       'mgcrea.ngStrap',
+      'angulike',
       'songrhyme.routes',
       'songrhyme.config',
       'songrhyme.layout',

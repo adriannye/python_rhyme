@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
-from rhyme.models import Word, RhymePhonemeSequence, PhonemeSequence
+from rhyme.models import Word, RhymePhonemeSequence, PhonemeSequence, PeerReview
 from rhyme.serializers import PhonemeSequenceSerializer, RhymePhonemeSequenceSerializer, WordSerializer
 
 
